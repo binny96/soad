@@ -30,9 +30,33 @@ void selection(int *ar, int n)
     }
 }
 
+void radix(int *ar, int *br, int sizeAB, int sizeC)
+{
+    int i,k,n;
+    k = sizeC;
+    n = sizeAB;
+    int* cr = new int[n];
+    for (i = 0; i < n; i++)
+        br[i]=0;
+    for (i = 0; i <= k; i++)
+        cr[i]=0;
+    for (i = 0; i < n; i++)
+        cr[ar[i]]+=1;
+    for (i = 1; i < k+1; i++)
+        cr[i]+=cr[i-1];
+    for (i = n-1; i >= 0; i--)
+    {
+        br[cr[ar[i]]-1]=ar[i];
+        cr[ar[i]]-=1;
+    }
+    delete[] cr;
+}
+
+
 int main()
-{int i, n = 10000, vr;
+{int i, n = 100000,k=99999, vr, rv;
 int* a = new int[n];
+int* b = new int[n];
 setlocale(LC_ALL, "RUSSIAN");
 cout<<" Выберите необхoдимое действие:\n";
 cout<<"1 - считывание из файла\n2 - случайным образом\n";
@@ -50,19 +74,8 @@ switch (vr)
             cout<<a[i]<<endl;
         }
 
-        clock_t start = clock();
-        selection(a, n);
-        clock_t end = clock();
-
-        cout<<"\nСортировка выбором:\n";
-        for (i=0; i<n; i++)
-        {
-
-            cout<<a[i]<<endl;
-        }
-        cout<<"\nВремя сортировки: "<<end-start;
-        break;
     }
+
     case 2:
     {
             cout<<"\nИсходный массив:\n";
@@ -71,19 +84,45 @@ switch (vr)
                 a[i]=int(rand()%10000);
                 cout<<a[i]<<endl;
             }
+    }
+}
 
-            clock_t start = clock();
-            selection(a, n);
-            clock_t end = clock();
+cout<<" Выберите метод сортировки:\n";
+cout<<"1 - выбор\n2 - подсчет\n";
+cin>>rv;
 
-            cout<<"\nСортировка выбором:\n";
-            for (i=0; i<n; i++)
-            {
+switch (rv)
+{
+    case 1:
+    {
 
-                cout<<a[i]<<endl;
-            }
-            cout<<"\nВремя сортировки: "<<end-start;
-            break;
+        clock_t start = clock();
+        selection(a, n);
+        clock_t end = clock();
+
+        cout<<"\nСортировка выбором:\n";
+        for (i=0; i<n; i++)
+        {
+            cout<<a[i]<<endl;
+        }
+        cout<<"\nВремя сортировки: "<<end-start;
+        break;
+    }
+
+    case 2:
+    {
+
+        clock_t start = clock();
+        radix(a, b, n, k);
+        clock_t end = clock();
+
+        cout<<"\nСортировка подсчетом:\n";
+        for (i=0; i<n; i++)
+        {
+            cout<<b[i]<<endl;
+        }
+        cout<<"\nВремя сортировки: "<<end-start;
+        break;
     }
 }
 
