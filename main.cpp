@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <cstdlib>
 #include <conio.h>
+#include <time.h>
 
 using namespace std;
 
@@ -30,7 +31,7 @@ void selection(int *ar, int n)
 }
 
 int main()
-{int i, n = 100, vr;
+{int i, n = 10000, vr;
 int* a = new int[n];
 setlocale(LC_ALL, "RUSSIAN");
 cout<<" Выберите необхoдимое действие:\n";
@@ -49,7 +50,9 @@ switch (vr)
             cout<<a[i]<<endl;
         }
 
+        clock_t start = clock();
         selection(a, n);
+        clock_t end = clock();
 
         cout<<"\nСортировка выбором:\n";
         for (i=0; i<n; i++)
@@ -57,6 +60,7 @@ switch (vr)
 
             cout<<a[i]<<endl;
         }
+        cout<<"\nВремя сортировки: "<<end-start;
         break;
     }
     case 2:
@@ -64,11 +68,13 @@ switch (vr)
             cout<<"\nИсходный массив:\n";
             for (i=0; i<n; i++)
             {
-                a[i]=int(rand()%1000);
+                a[i]=int(rand()%10000);
                 cout<<a[i]<<endl;
             }
 
+            clock_t start = clock();
             selection(a, n);
+            clock_t end = clock();
 
             cout<<"\nСортировка выбором:\n";
             for (i=0; i<n; i++)
@@ -76,7 +82,7 @@ switch (vr)
 
                 cout<<a[i]<<endl;
             }
-
+            cout<<"\nВремя сортировки: "<<end-start;
             break;
     }
 }
