@@ -9,39 +9,80 @@
 
 using namespace std;
 
+void selection(int *ar, int n)
+{
+    int i, j, mx, nmx;
+    for(i = 0; i < n-1; i++)
+    {
+        mx=ar[i];
+        nmx=i;
+        for(j = i+1; j < n; j++)
+        {
+            if (ar[j]<mx)
+            {
+                mx=ar[j];
+                nmx=j;
+            }
+        }
+        ar[nmx]=ar[i];
+        ar[i]=mx;
+    }
+}
+
 int main()
 {int i, n = 100, vr;
-double a[100];
+int* a = new int[n];
 setlocale(LC_ALL, "RUSSIAN");
 cout<<" Выберите необхoдимое действие:\n";
-cout<<" 1 - считывание из файла\n 2 - случайным образом\n";
+cout<<"1 - считывание из файла\n2 - случайным образом\n";
 cin>>vr;
 
 switch (vr)
 {
     case 1:
     {
-        cout<<"Исходный массив:"<<endl;
-        ifstream fin("massiv.txt");
+        cout<<"\nИсходный массив:\n";
+        ifstream fin("C:\\massiv.txt");
         for (i=0; i<n; i++)
         {
             fin>>a[i];
+            cout<<a[i]<<endl;
+        }
+
+        selection(a, n);
+
+        cout<<"\nСортировка выбором:\n";
+        for (i=0; i<n; i++)
+        {
+
             cout<<a[i]<<endl;
         }
         break;
     }
     case 2:
     {
-            cout<<"Исходный массив:"<<endl;
+            cout<<"\nИсходный массив:\n";
             for (i=0; i<n; i++)
             {
                 a[i]=int(rand()%1000);
                 cout<<a[i]<<endl;
             }
-                break;
+
+            selection(a, n);
+
+            cout<<"\nСортировка выбором:\n";
+            for (i=0; i<n; i++)
+            {
+
+                cout<<a[i]<<endl;
+            }
+
+            break;
     }
 }
+
 cout<<endl;
+delete[] a;
 getch();
 return 0;
 }
